@@ -84,7 +84,7 @@ def runGame():
             #random chance they change direction
             if random.randint(0, 99) < DIRCHANGEFREQ:
                 sObj['movex'] = getRandomVelocity()
-                sObj['movey'] =getRandomVelocity()
+                sObj['movey'] = getRandomVelocity()
                 if sObj['movex'] > 0:
                     sObj['surface'] = pygame.transform.scale(R_SQUIR_IMG,
                     (sObj['width'], sObj['height']))
@@ -114,7 +114,7 @@ def runGame():
         elif playerCenterx - (camerax + HALF_WINWIDTH) > CAMERASLACK:
             camerax = playerCenterx - CAMERASLACK - HALF_WINWIDTH
         if (cameray + HALF_WINHEIGHT) - playerCentery > CAMERASLACK:
-            cameray = playerCentery - CAMERASLACK - HALF_WINHEIGHT
+            cameray = playerCentery + CAMERASLACK - HALF_WINHEIGHT
         elif playerCentery - (cameray + HALF_WINHEIGHT) > CAMERASLACK:
             cameray = playerCentery - CAMERASLACK - HALF_WINHEIGHT
 
@@ -141,9 +141,10 @@ def runGame():
         flashIsOn = round(time.time(), 1) * 10 % 2 == 1
         if not gameOverMode and not (invulnerableMode and flashIsOn):
             playerObj['rect'] = pygame.Rect( (playerObj['x'] - camerax,
-                                                playerObj['y'] - cameray - getBounceAmount(playerObj['bounce'], BOUNCERATE, BOUNCEHEIGHT),
+                                                playerObj['y'] - cameray - 
+                                                getBounceAmount(playerObj['bounce'], BOUNCERATE, BOUNCEHEIGHT),
                                                 playerObj['size'],
-                                                playerObj['size']))
+                                                playerObj['size']) )
             DISPLAYSURF.blit(playerObj['surface'], playerObj['rect'])
 
         #draw the health meter
@@ -321,7 +322,7 @@ def isOutsideActiveArea(camerax, cameray, obj):
     #a half-window lenght beyond the edge of the window
     boundsLeftEdge = camerax - WINWIDTH
     boundsTopEdge = cameray - WINHEIGHT
-    boundsRect = pygame.Rect(boundsLeftEdge, boundsTopEdge, WINWIDTH * 3, WINWIDTH * 3)
+    boundsRect = pygame.Rect(boundsLeftEdge, boundsTopEdge, WINWIDTH * 3, WINHEIGHT * 3)
     objRect = pygame.Rect(obj['x'], obj['y'], obj['width'], obj['height'])
     return not boundsRect.colliderect(objRect)
 
